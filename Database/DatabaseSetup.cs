@@ -10,6 +10,7 @@ class DatabaseSetup
     { 
         this.databaseConfig = databaseConfig; 
         CreateComputerTable();
+        CreateLabTable();
     }
 
     public void CreateComputerTable()
@@ -24,12 +25,25 @@ class DatabaseSetup
                 ram varchar(100) not null,
                 processor varchar(100) not null
             );
+        ";
+
+        command.ExecuteNonQuery(); //executa a tabela 
+        connection.Close(); //fecha conexão
+    }
+
+    public void CreateLabTable()
+    {
+        var connection = new SqliteConnection("Data Source=database.db"); //database.db é um arquivo - string de conexão já configurada no DatabaseConfig
+        connection.Open(); //abre conexão
+
+        var command = connection.CreateCommand();
+        command.CommandText = @"
             CREATE TABLE IF NOT EXISTS Labs(
                 id int not null primary key,
-                num_lab int not null,
+                number int not null,
                 name varchar(100) not null,
                 block int not null
-            )
+            );
         ";
 
         command.ExecuteNonQuery(); //executa a tabela 

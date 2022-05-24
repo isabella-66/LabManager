@@ -15,6 +15,7 @@ var databaseConfig = new DatabaseConfig(); //usando var, porque é mais fácil d
 new DatabaseSetup(databaseConfig);
 
 var computerRepository = new ComputerRepository(databaseConfig);
+var labRepository = new LabRepository(databaseConfig);
 
 //Routing || roteamento
 
@@ -43,5 +44,23 @@ if(modelName == "Computer")
         computerRepository.Save(computer);
 
         //
+    }
+}
+
+if (modelName == "Lab")
+{
+    if (modelAction == "List")
+    {
+        Console.WriteLine("Lab List");
+        foreach (var lab in labRepository.GetAll())
+        {
+            var message = $"{lab.Id}, {lab.Number}, {lab.Name}, {lab.Block}"; //com $ aparece o valor associado ao lab. sem $ aparece a escrita lab
+            Console.WriteLine(message);
+        } 
+    }
+
+    if (modelAction == "New")
+    {
+
     }
 }
