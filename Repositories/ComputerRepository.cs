@@ -38,7 +38,7 @@ class ComputerRepository
         return computers;
     }
 
-    public void Save(Computer computer) //salva no banco e devolve para o computador
+    public Computer Save(Computer computer) //salva no banco e devolve para o computador
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
@@ -48,8 +48,10 @@ class ComputerRepository
         command.Parameters.AddWithValue("$id", computer.Id);
         command.Parameters.AddWithValue("$ram", computer.Ram);
         command.Parameters.AddWithValue("$processor", computer.Processor);
-        command.ExecuteNonQuery(); //?
 
+        command.ExecuteNonQuery();
         connection.Close();
+        
+        return computer;
     }
 }
