@@ -1,4 +1,4 @@
-//mesmo nomne model + repository
+//mesmo nome model + repository
 //fala com banco de dados para a tabela computer
 
 using LabManager.Database;
@@ -53,6 +53,26 @@ class ComputerRepository
         connection.Close();
         
         return computer;
+    }
+
+    public Computer GetById(int id)
+    {
+        var connection = new SqliteConnection(databaseConfig.ConnectionString); 
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.Parameters.AddWithValue("$id", id);
+        command.CommandText = "SELECT * FROM Computers WHERE id = $id;";
         
+        //devolver os dados do computador com aquele id
+        var reader = command.ExecuteReader();
+        reader.Read();
+        var computer = new Computer(
+            reader.GetInt32(0), reader.GetString(1), reader.GetString(2)
+        );
+
+        connection.Close();
+
+        return computer;
     }
 }
