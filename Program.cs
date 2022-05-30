@@ -41,7 +41,15 @@ if(modelName == "Computer")
 
         var computer = new Computer(id, ram, processor);
         computerRepository.Save(computer);
+    }
 
-        //
+    if(modelAction == "Show")
+    {
+
+        int id = Convert.ToInt32(args[2]); //id requisitada
+
+        var computer = computerRepository.GetById(id); //pegando id requisitada para pesquisa pelo Computer
+        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor); //mostrando resultado da pesquisa
+
     }
 }
