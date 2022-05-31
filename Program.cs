@@ -64,4 +64,10 @@ if(modelName == "Computer")
         Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
     }
 
+    if(modelAction == "Delete")
+    {
+        int id = Convert.ToInt32(args[2]);
+        computerRepository.Delete(id);
+        Console.WriteLine("Computer {0} deleted!", id);
+    }
 }
