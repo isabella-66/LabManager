@@ -52,4 +52,16 @@ if(modelName == "Computer")
         Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor); //mostrando resultado da pesquisa
 
     }
+    
+    if(modelAction == "Update")
+    {
+        int id = Convert.ToInt32(args[2]);
+        string ram = args[3];
+        string processor = args[4];
+
+        var computer = new Computer(id, ram, processor);
+        computerRepository.Update(computer);
+        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
+    }
+
 }
