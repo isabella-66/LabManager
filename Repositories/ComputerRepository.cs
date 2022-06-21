@@ -63,13 +63,9 @@ class ComputerRepository
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processor)";
-        command.Parameters.AddWithValue("$id", computer.Id);
-        command.Parameters.AddWithValue("$ram", computer.Ram);
-        command.Parameters.AddWithValue("$processor", computer.Processor);
+        //pega valores do objeto computer e coloca na String INSERT
+        connection.Execute("INSERT INTO Computers VALUES(@Id, @Ram, @Processor)", computer); //não mapeia diretamente um objeto se o parâmetro for antecedido por $
 
-        command.ExecuteNonQuery();
         connection.Close();
         
         return computer;
