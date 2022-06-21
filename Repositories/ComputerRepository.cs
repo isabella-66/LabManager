@@ -95,10 +95,6 @@ class ComputerRepository
         using var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.Parameters.AddWithValue("$id", id);
-        command.CommandText = "DELETE FROM Computers WHERE id = $id;";
-
-        command.ExecuteNonQuery();
+        connection.Execute("DELETE FROM Computers WHERE id = @Id", new { Id = id });
     }
 }
