@@ -4,8 +4,9 @@
 using LabManager.Database;
 using LabManager.Models;
 using Microsoft.Data.Sqlite;
+using Dapper;
 
-namespace LabManager.Repositories; //?
+namespace LabManager.Repositories;
 
 class ComputerRepository
 {
@@ -16,15 +17,15 @@ class ComputerRepository
     //cria lista fora do while, no while adiciona itens à lista e depois mostra a lista
     public List<Computer> GetAll()
     {
+        var computers = new List<Computer>();
+
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "SELECT id, ram, processor FROM Computers;"; //? SELECT *  - seleciona todos os campos
+        command.CommandText = "SELECT id, ram, processor FROM Computers;"; // SELECT *  - seleciona todos os campos
 
         var reader = command.ExecuteReader(); //? seleciona todos os campos; reader é um cursor
-
-        var computers = new List<Computer>();
 
         while(reader.Read()) //preenche lista de computadores
         {

@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 //Console.WriteLine(args);
 
 //foreach (var arg in args)
@@ -19,7 +19,7 @@ var computerRepository = new ComputerRepository(databaseConfig);
 //Routing || roteamento
 
 var modelName = args[0];
-var modelAction = args[1]; //?
+var modelAction = args[1];
 
 if(modelName == "Computer")
 {
