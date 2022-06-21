@@ -20,16 +20,9 @@ class ComputerRepository
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
+        var result = connection.ExecuteScalar<Boolean>("SELECT COUNT(id) FROM Computers WHERE id=$id;", new { Id = id });
 
-        var command = connection.CreateCommand();
-        var computer = connection.QuerySingle<Computer>("SELECT COUNT(id) FROM Computers WHERE id=$id;", new { Id = id });
-
-        //var reader = command.ExecuteReader();
-        //reader.Read();
-        //var result = reader.GetBoolean(0);
-        var result = Convert.ToBoolean(command.ExecuteScalar()); //quando vai mostrar um valor só como resultado no SQL
-
-        return result;
+        return result; 
     }
 
     //public List<Computer> GetAll() //devolve todas as linhas
