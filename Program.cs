@@ -69,6 +69,7 @@ if(modelName == "Computer")
             string processor = args[4];
             var computer = new Computer(id, ram, processor);
             computerRepository.Update(computer);
+            Console.WriteLine("Computer {0} updated!", id);
         }
         else
         {
