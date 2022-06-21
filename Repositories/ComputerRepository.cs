@@ -15,6 +15,25 @@ class ComputerRepository
     public ComputerRepository(DatabaseConfig databaseConfig) => this.databaseConfig = databaseConfig;
 
     //cria lista fora do while, no while adiciona itens à lista e depois mostra a lista
+    
+    public bool ExistsById(int id)
+    {
+        var connection = new SqliteConnection(databaseConfig.ConnectionString); 
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT COUNT(id) FROM Computers WHERE id=$id;";
+        command.Parameters.AddWithValue("$id", id);
+
+        //var reader = command.ExecuteReader();
+        //reader.Read();
+        //var result = reader.GetBoolean(0);
+
+        var result = Convert.ToBoolean(command.ExecuteScalar());
+
+        return result;
+    }
+
     public List<Computer> GetAll()
     {
         var computers = new List<Computer>();
