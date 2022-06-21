@@ -22,8 +22,7 @@ class ComputerRepository
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "SELECT COUNT(id) FROM Computers WHERE id=$id;";
-        command.Parameters.AddWithValue("$id", id);
+        var computer = connection.QuerySingle<Computer>("SELECT COUNT(id) FROM Computers WHERE id=$id;", new { Id = id });
 
         //var reader = command.ExecuteReader();
         //reader.Read();
