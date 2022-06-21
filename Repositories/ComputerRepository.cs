@@ -60,16 +60,7 @@ class ComputerRepository
         using var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.Parameters.AddWithValue("$id", id);
-        command.CommandText = "SELECT * FROM Computers WHERE id = $id;";
-        
-        //devolver os dados do computador com aquele id
-        var reader = command.ExecuteReader();
-        reader.Read();
-        var computer = new Computer(
-            reader.GetInt32(0), reader.GetString(1), reader.GetString(2)
-        );
+        var computer = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new { Id = id });
 
         return computer;
     }
