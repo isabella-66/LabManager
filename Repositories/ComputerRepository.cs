@@ -16,7 +16,7 @@ class ComputerRepository
 
     //cria lista fora do while, no while adiciona itens à lista e depois mostra a lista
     
-    public bool ExistsById(int id)
+    public bool ExistsById(int id) //devolve se computador existe ou não no banco de dados
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
@@ -28,31 +28,19 @@ class ComputerRepository
         //var reader = command.ExecuteReader();
         //reader.Read();
         //var result = reader.GetBoolean(0);
-
-        var result = Convert.ToBoolean(command.ExecuteScalar());
+        var result = Convert.ToBoolean(command.ExecuteScalar()); //quando vai mostrar um valor só como resultado no SQL
 
         return result;
     }
 
-    public List<Computer> GetAll()
+    //public List<Computer> GetAll() //devolve todas as linhas
+    public IEnumerable<Computer> GetAll()
     {
-        var computers = new List<Computer>();
-
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "SELECT id, ram, processor FROM Computers;"; // SELECT *  - seleciona todos os campos
+        var computers = connection.Query<Computer>("SELECT * FROM Computers"); //.ToList(); 
 
-        var reader = command.ExecuteReader(); //? seleciona todos os campos; reader é um cursor
-
-        while(reader.Read()) //preenche lista de computadores
-        {
-            var computer = new Computer(
-                reader.GetInt32(0), reader.GetString(1), reader.GetString(2)
-            );
-            computers.Add(computer);
-        }
         connection.Close();
 
         return computers;
@@ -71,7 +59,7 @@ class ComputerRepository
         return computer;
     }
 
-    public Computer GetById(int id)
+    public Computer GetById(int id) //devolve uma linha
     {
         var connection = new SqliteConnection(databaseConfig.ConnectionString); 
         connection.Open();
