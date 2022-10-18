@@ -1,5 +1,5 @@
 //mesmo nome model + repository
-//fala com banco de dados para a tabela computer
+//fala com banco de dados para a tabela computer 
 
 using LabManager.Database;
 using LabManager.Models;
