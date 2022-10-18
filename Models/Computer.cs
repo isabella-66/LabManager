@@ -1,7 +1,8 @@
-namespace LabManager.Models;
-//model é mais estrutura de dados que representa computador
+using Microsoft.EntityFrameworkCore;
 
-class Computer
+namespace LabManager.Models;
+
+public class Computer
 {
     public int Id { get; set; }
     public string Ram { get; set; }

@@ -1,94 +1,45 @@
-// See https://aka.ms/new-console-template for more information
-//Console.WriteLine(args);
-
-//foreach (var arg in args)
-//{
-//    Console.WriteLine(arg);
-//}
-
-using LabManager.Database;
 using LabManager.Models;
-using LabManager.Repositories;
-using Microsoft.Data.Sqlite;
 
-var databaseConfig = new DatabaseConfig(); //usando var, porque é mais fácil de ver - não precisa especificar, ao colocar, VS automaticamente sabe
-new DatabaseSetup(databaseConfig);
+SystemContext context = new SystemContext();
+context.Database.EnsureCreated(); 
 
-var computerRepository = new ComputerRepository(databaseConfig);
+//New
+var c1 = new Computer(1, "1G", "i3");
+context.Computers.Add(c1);
+context.SaveChanges();
 
-//Routing || roteamento
+var c2 = new Computer(2, "2G", "i5");
+context.Computers.Add(c2);
+context.SaveChanges();
 
-var modelName = args[0];
-var modelAction = args[1];
+var c3 = new Computer(3, "3G", "i7");
+context.Computers.Add(c3);
+context.SaveChanges();
 
-if(modelName == "Computer")
+//List
+IEnumerable<Computer> computers = context.Computers;
+foreach(var computer in computers)
 {
-    if(modelAction == "List")
-    {
-        Console.WriteLine("Computer List");
-        foreach (var computer in computerRepository.GetAll())
-        {
-            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
-        } 
-    }
+    Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
+}
 
-    if(modelAction == "New")
-    {
+//Show
+var find = context.Computers.Find(1);
+Console.WriteLine($"{find.Id}, {find.Ram}, {find.Processor}");
 
-        var id = Convert.ToInt32(args[2]);
-        string ram = args[3];
-        string processor = args[4];
+//Update
+find.Ram = "4GB";
+find.Processor = "i9";
+context.Computers.Update(find);
+context.SaveChanges();
 
-        var computer = new Computer(id, ram, processor);
-        computerRepository.Save(computer);
-    }
+//Delete
+context.Computers.Remove(find);
+context.SaveChanges();
 
-    if(modelAction == "Show")
-    {
-
-        var id = Convert.ToInt32(args[2]); //id requisitada
-
-        if(computerRepository.ExistsById(id)) 
-        {
-            var computer = computerRepository.GetById(id); //pegando id requisitada para pesquisa pelo Computer
-            Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor); //mostrando resultado da pesquisa
-        }
-        else
-        {
-            Console.WriteLine($"O computador com Id {id} não existe");
-        }
-    }
-    
-    if(modelAction == "Update")
-    {
-        var id = Convert.ToInt32(args[2]);
-
-        if(computerRepository.ExistsById(id))
-        {
-            string ram = args[3];
-            string processor = args[4];
-            var computer = new Computer(id, ram, processor);
-            computerRepository.Update(computer);
-            Console.WriteLine("Computer {0} updated!", id);
-        }
-        else
-        {
-            Console.WriteLine($"O computador com Id {id} não existe");
-        }
-    }
-
-    if(modelAction == "Delete")
-    {
-        var id = Convert.ToInt32(args[2]);
-
-        if(computerRepository.ExistsById(id))
-        {
-            computerRepository.Delete(id);
-            Console.WriteLine("Computer {0} deleted!", id);
-        }
-        else
-        {
-            Console.WriteLine($"O computador com Id {id} não existe");
-        }
-    }
+//List again
+computers = context.Computers;
+foreach(var computer in computers)
+{
+    Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
 }
